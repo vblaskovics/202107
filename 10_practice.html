@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="todo-list-app">
+        <label for="todoInput">Todo:</label>
+        <input id="todoInput" v-model="newTodo" />
+        <label for="todoTitle">Title:</label>
+        <input id="todoTitle" v-model="newTitle" />
+        <button @click="createTodo">New Todo</button>
+        
+        <ol>
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+        <span v-if="groceryList.length > 5">Több mint 5 todo</span>
+    </div>
+    <script>
+        let id = 0;
+        function generateId() {
+            return id++;
+        }
+
+        const TodoList = {
+            data() {
+                return {
+                    groceryList: [
+                        { id: generateId(), text: 'Vegetables', tooltip: 'tooltip 1' },
+                        { id: generateId(), text: 'Cheese', tooltip: 'tooltip 2' },
+                        { id: generateId(), text: 'Whatever else humans are supposed to eat', tooltip: 'tooltip 3' }
+                    ],
+                    newTodo:'',
+                    newTitle:''
+                }
+            },
+            methods: {
+                createTodo() {
+                    console.log('this.newTodo')
+                    this.groceryList.push({
+                        id: generateId(), text:this.newTodo, tooltip:this.newTitle
+                    })
+                }
+            }
+        }
+
+        const app = Vue.createApp(TodoList)
+
+        app.component('todo-item', {
+            props: ['todo'],
+            template: `<li v-bind:title="todo.tooltip">{{ todo.text }} <strong>({{todo.id}}).</strong></li>`
+        })
+
+        app.mount('#todo-list-app')
+
+
+
+    </script>
+</body>
+
+</html>
