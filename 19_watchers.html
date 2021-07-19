@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+
+</head>
+
+<body>
+    <div id="vue-app">
+        <p>Ask a yes/no question:</p>
+        <input type="text" v-model="question">
+        <p>{{ answer }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script>
+        const defaultAnswer = 'Please give me a question!'
+        const VueApp = {
+            data() {
+                return {
+                    question: '',
+                    answer: defaultAnswer
+                }
+            },
+            watch: {
+                question(newQuestion, oldQuestion){
+                    if (newQuestion.indexOf('?') > -1) {
+                        this.getAnswer();
+                    } else {
+                        this.answer = defaultAnswer
+                    }
+                }
+            },
+            methods: {
+                getAnswer() {
+                    this.answer = 'Loading...'
+
+                    axios
+                        .get('https://yesno.wtf/api')
+                        .then(response => {
+                            this.answer = response.data.answer
+                        })
+                        .catch(error => {
+                            this.answer = 'Error: ' + error
+                        })
+                }
+            }
+
+        }
+
+        const app = Vue.createApp(VueApp)
+        const vm = app.mount('#vue-app')
+
+    </script>
+</body>
+
+</html>

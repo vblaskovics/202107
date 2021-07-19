@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <p> {{ author.name }} has published books: </p>
+        <p> {{ publishedBooksMessage }} </p>
+        <p> {{ getPublishedBooksMessage() }} </p>
+        <button @click="changeName">Change name</button>
+        <button @click="addBook">Add book</button>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    author: {
+                        name: 'Peter Smith',
+                        books: []
+                    }
+                }
+            },
+            computed: {
+                publishedBooksMessage() {
+                    console.log('computed publishedBooksMessage')
+                    return this.author.books.length > 0 ? 'Yes' : 'No'
+                }
+            },
+            methods: {
+                getPublishedBooksMessage() {
+                    console.log('method getPublishedBooksMessage')
+                    return this.author.books.length > 0 ? 'Yes' : 'No'
+                },
+                changeName() {
+                    this.author.name = 'John Smith'
+                },
+                addBook() {
+                    this.author.books.push('New book')
+                }
+            }
+
+        }
+
+        const app = Vue.createApp(VueApp)
+        const vm = app.mount('#vue-app')
+
+    </script>
+</body>
+
+</html>
