@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="vue-app">
+        <p>{{ message }}</p>
+        <!-- Shorthand: v-on: => @ -->
+        <button @[eventname]="reverseMessage">Reverse Message</button>
+        <button @click="changeMode">Change input mode</button>
+
+        <!-- Shorthand: v-bind => : -->
+        <p>
+            <a v-bind:href="url">Go to Google</a>
+        </p>
+        <p>
+            <a :href="url">Go to Google short</a>
+        </p>
+        <p>
+            <a :[bindkey]="url">Go to Google short</a>
+        </p>
+    </div>
+        
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    message: 'Hello vue!',
+                    eventname: 'click',
+                    url: 'https://www.google.com',
+                    bindkey: 'href'
+                }
+            },
+            methods: {
+                reverseMessage() {
+                    this.message = this.message.split('').reverse().join('')
+                },
+                changeMode() {
+                    this.eventname = 'mouseover'
+                }
+            }
+        }
+
+        Vue.createApp(VueApp).mount('#vue-app')
+    </script>
+</body>
+</html>
