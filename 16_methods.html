@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="vue-app">
+        <p>{{ count }}</p>
+    </div>
+        
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    count: 3
+                }
+            },
+            methods: {
+                increment() {
+                    this.count++
+                }
+            }
+        
+        }
+
+        const app = Vue.createApp(VueApp)
+
+        const vm = app.mount('#vue-app')
+
+        console.log(vm.count)
+        
+        vm.increment()
+        
+        console.log(vm.count)
+
+    </script>
+</body>
+</html>
