@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="vue-app">
+        <p>{{ count }}</p>
+    </div>
+        
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    count: 3
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+
+        const vm = app.mount('#vue-app')
+
+        console.log('vm.count', vm.count)
+        console.log('vm.$data.count', vm.$data.count)
+        
+        vm.count = 5
+        console.log('vm.$data.count', vm.$data.count)
+        
+        vm.$data.count = 10;
+        console.log('vm.count', vm.count)
+
+    </script>
+</body>
+</html>
