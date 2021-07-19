@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <p> {{ author.name }} has published books: </p>
+        <p> {{ publishedBooksMessage }} </p>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    author: {
+                        name: 'Peter Smith',
+                        books: [
+                            'Book 1',
+                            'Book 2',
+                            'Book 3'
+                        ]
+                    }
+                }
+            },
+            computed: {
+                publishedBooksMessage() {
+                    return this.author.books.length > 0 ? 'Yes' : 'No'
+                }
+            }
+
+        }
+
+        const app = Vue.createApp(VueApp)
+        const vm = app.mount('#vue-app')
+
+    </script>
+</body>
+
+</html>
