@@ -25,8 +25,10 @@
                 }
             },
             watch: {
-                question(newQuestion, oldQuestion){
-                    if (newQuestion.indexOf('?') > -1) {
+                question(newValue, oldValue){
+                    console.log('new:', newValue)
+                    console.log('old:', oldValue)
+                    if (newValue.indexOf('?') > -1) {
                         this.getAnswer();
                     } else {
                         this.answer = defaultAnswer
