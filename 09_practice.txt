@@ -1,0 +1,7 @@
+Fejleszd tovább a todo list-et! (08)
+
+Funkciók:
+1. Ha több todo van, mint 5, akkor jelenjen meg az üzenet, hogy "Több, mint 5 feladat!"
+2. Minden todo-nak legyen tooltip property-je és jelenjen is meg a tooltip, amikor a todo fölé visszük az egeret
+3. Minden todo végén jelenjen meg az id-je zárójelében, félkövérrel kiemelve
+4. Legyen egy Todo és egy Tooltip input mező a lista előtt, valamint egy gomb, amivel új Todo-t tudunk a lisáthoz adni
