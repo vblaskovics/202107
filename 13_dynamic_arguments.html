@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="vue-app">
+        <p>{{ message }}</p>
+        <button v-on:[eventname]="reverseMessage">Reverse Message</button>
+        <button v-on:click="changeMode">Change input mode</button>
+    </div>
+        
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    message: 'Hello vue!',
+                    eventname: 'click'
+                }
+            },
+            methods: {
+                reverseMessage() {
+                    this.message = this.message.split('').reverse().join('')
+                },
+                changeMode() {
+                    this.eventname = 'mouseover';
+                }
+            }
+        }
+
+        Vue.createApp(VueApp).mount('#vue-app')
+    </script>
+</body>
+</html>
