@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <h4>Values:</h4>
+        <ul>
+            <li v-for="value in myObject">
+                {{value}}
+            </li>
+        </ul>
+        <h4>Keys & Values:</h4>
+        <ul>
+            <li v-for="(value, key) in myObject">
+                {{key}} : {{value}}
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    myObject: {
+                        title: 'How to use Vue.js',
+                        author: 'Peter Parker',
+                        publishedAt: '2010-02-04'
+                    }
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>

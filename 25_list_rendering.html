@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <ul>
+            <li v-for="(item, index) in items">
+                {{parentMessage}} {{ item.message }} ( {{index}} )
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    parentMessage: 'Message: ',
+                    items: [{ message: 'Hello 1' }, { message: 'Hello 2' }]
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
