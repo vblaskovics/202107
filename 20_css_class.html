@@ -17,19 +17,36 @@
 
 <body>
     <div id="vue-app">
-        <div :class="{ active: isActive, 'text-danger': hasError }">Hello CSS 1</div>
-        <div :class="classObject">Hello CSS 2</div>
+        <input v-model="isActive" type="checkbox"><span>isActive</span>
+        <input v-model="hasError" type="checkbox"><span>hasError</span>
+        <div class="static-class" :class="{ active: isActive, 'text-danger': hasError }">Hello CSS - Object syntax</div>
+        <div :class="classObject">Hello CSS - Class Object</div>
+        <div :class="[class1, class2]">Hello CSS - Array</div>
+        <div :class="classObjectComputed">Hello CSS - Computed</div>
     </div>
 
     <script>
         const VueApp = {
             data() {
                 return {
+                    /* object syntax */
                     isActive: true,
                     hasError: true,
+                    /* class object */
                     classObject: {
                         active: true,
                         'text-danger': true
+                    },
+                    /* array */
+                    class1: 'active',
+                    class2: 'text-danger'
+                }
+            },
+            computed: {
+                classObjectComputed() {
+                    return {
+                        active: this.isActive && this.hasError,
+                        'text-danger': this.isActive && this.hasError
                     }
                 }
             }
