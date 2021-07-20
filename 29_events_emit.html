@@ -8,32 +8,43 @@
 
 <body>
     <div id="vue-app">
-        <button @click="warning('Hello message', $event)">Submit</button>
-        <!-- Event modifier -->
-        <button @click.prevent="alert('Hello message')">Submit2</button>
+
+        <h3>My books:</h3>
+
+        <book-item @selectbook="select" :book="book1"></book-item>
+        <book-item @selectbook="select" :book="book2"></book-item>
+
+        <h4>Selected book: {{ selectedBook.title }}</h4>
+        
     </div>
 
     <script>
         const VueApp = {
             data() {
                 return {
-                    
+                    selectedBook: { title: '-' },
+                    book1: { title: 'Lord of the rings'},
+                    book2: { title: 'Dune' }
                 }
             },
             methods: {
-                warning(message, event) {
-                    if(event) {
-                        event.preventDefault()
-                    }
-                    alert(message)
-                },
-                alert(message) {
-                    alert(message)
+                select(book) {
+                    this.selectedBook = book
                 }
             }
         }
 
         const app = Vue.createApp(VueApp)
+
+        app.component('book-item', {
+            props:['book'],
+            template: `
+                <p>
+                    Book: {{book.title}} <button @click="$emit('selectbook', book)">Select</button>
+                </p>
+            `
+        })
+
         app.mount('#vue-app')
     </script>
 </body>
