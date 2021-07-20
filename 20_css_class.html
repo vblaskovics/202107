@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .active {
+            background-color: aqua;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vue-app">
+        <div :class="{ active: isActive, 'text-danger': hasError }">Hello CSS 1</div>
+        <div :class="classObject">Hello CSS 2</div>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    isActive: true,
+                    hasError: true,
+                    classObject: {
+                        active: true,
+                        'text-danger': true
+                    }
+                }
+            }
+        }
+
+        Vue.createApp(VueApp).mount('#vue-app')
+    </script>
+</body>
+
+</html>
