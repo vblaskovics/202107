@@ -8,7 +8,6 @@
 
 <body>
     <div id="vue-app">
-        <button @click="withoutparam">Submit without param</button>
         <button @click="warning('Hello message', $event)">Submit</button>
         <!-- Event modifier -->
         <button @click.prevent="alert('Hello message')">Submit2</button>
@@ -22,9 +21,6 @@
                 }
             },
             methods: {
-                withoutparam(event) {
-                    console.log(event)
-                },
                 warning(message, event) {
                     if(event) {
                         event.preventDefault()
