@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <button @click="warning('Hello message', $event)">Submit</button>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+                warning(message, event) {
+                    if(event) {
+                        event.preventDefault()
+                    }
+                    alert(message)
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
