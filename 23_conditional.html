@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <input v-model="first" type="checkbox"><span>First</span>
+        <div v-if="first">First element</div>
+        <div v-else-if="Math.random() > 0.5">Second element</div>
+        <div v-else>Last element</div>
+        <br>
+        <input v-model="show" type="checkbox"><span>Show</span>
+        <h3 v-show="show">Show this!!</h3>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                   first: true,
+                   show: true
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
