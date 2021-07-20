@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+
+        <h3>Without key</h3>
+        <todo-item v-for="todo in todos" :item="todo"></todo-item>
+
+        <h3>With key</h3>
+        <todo-item v-for="todo in todos" :item="todo" :key="todo.id"></todo-item>
+
+        <button @click="addTodo">Add new todo</button>
+        
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    todos: [
+                        { id: 0, text: 'Todo 1'},
+                        { id: 1, text: 'Todo 2'},
+                        { id: 2, text: 'Todo 3'}
+                    ]
+                }
+            },
+            methods: {
+                addTodo() {
+                    this.todos.unshift(
+                        { id: 3, text: 'Todo 4'}
+                    );
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+
+        app.component('todo-item', {
+            props: ['item'],
+            template: `
+                <div>
+                    <input type="checkbox" :id="item.id" v-model="isDone">
+                    <label :for="item.id"> {{ item.text }}</label>    
+                </div>
+            `
+        })
+
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
