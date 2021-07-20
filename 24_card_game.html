@@ -1,0 +1,45 @@
+<!-- 
+    FELADAT
+
+    - Hozz létre 4 játékos-t (színes div dobozok)!
+    - Legyen egy gomb, amire ha kattintunk, akkor az egyik játékos előre lép egyet
+    - Ha valamelyik játékos célba ér (6-ot lépett előre), akkor jelenjen meg egy villogó üzenet:
+       "Nyert a kék játékos!"
+    - Ekkor jelenjen meg egy másik gomb is: "Újra", ami újra indítja a játékot
+
+    Példa: https://9gag.com/gag/azMDYRz
+ -->
+<html>
+
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .square {
+            position: absolute;
+            top: 150px;
+            left: 35px;
+            height: 50px;
+            width: 50px;
+            background-color:red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="square"></div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+
+                }
+            }
+        })
+
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
