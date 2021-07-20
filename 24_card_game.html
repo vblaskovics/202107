@@ -14,27 +14,127 @@
 <head>
     <script src="https://unpkg.com/vue@next"></script>
     <style>
-        .square {
+        .token {
             position: absolute;
-            top: 150px;
-            left: 35px;
             height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 50px;
+        }
+
+        .milestone {
+            width: 20px;
+            left: 5px;
+            background-color: grey;
+            color: whitesmoke;
+        }
+
+        .player {
+            position: absolute;
             width: 50px;
-            background-color:red;
+            color: black;
+        }
+
+        .p1 {
+            left: 50px;
+            background-color: red;
+        }
+
+        .p2 {
+            left: 110px;
+            background-color: blue;
+        }
+
+        .p3 {
+            left: 170px;
+            background-color: yellow;
+        }
+
+        .p4 {
+            left: 230px;
+            background-color: green;
+        }
+
+        button,
+        h3 {
+            position: absolute;
+            top: 120px;
+            left: 400px;
         }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <div class="square"></div>
+        <!-- <token class="milestone" :row="1" label="1"></token>
+        <token class="milestone" :row="2" label="2"></token>
+        <token class="milestone" :row="3" label="3"></token>
+        <token class="milestone" :row="4" label="4"></token>
+        <token class="milestone" :row="5" label="5"></token>
+        <token class="milestone" :row="6" label="6"></token> -->
+        <token class="milestone" v-for="index in 6" :key="index" :row="index" :label="index">
+        </token>
+
+        <!-- <token class="player p1" :row="players[0]" label="P1"></token>
+        <token class="player p2" :row="players[1]" label="P2"></token>
+        <token class="player p3" :row="players[2]" label="P3"></token>
+        <token class="player p4" :row="players[3]" label="P4"></token> -->
+        <token v-for="index in 4" class="player" 
+            :class="'p' + index" 
+            :row="players[index - 1]" 
+            :label="'P' + index"></token>
+
+        <button v-show="winner === -1" @click="nextRound">Next round!</button>
+        <winner-text v-if="winner !== -1" :winner="winner" class="winnerText"></winner-text>
     </div>
     <script>
         const app = Vue.createApp({
             data() {
                 return {
-
+                    players: [0, 0, 0, 0],
+                    winner: -1
                 }
+            },
+            methods: {
+                nextRound() {
+                    let nextPlayerIndex = Math.floor(Math.random() * 4)
+                    this.players[nextPlayerIndex] += 1;
+                }
+            },
+            watch: {
+                players: {
+                    deep: true,
+                    handler() {
+                        this.winner = this.players.findIndex(p => p === 6)
+                    }
+                }
+            }
+        })
+
+        app.component('token', {
+            template: `<div class='token' :style="positionStyle">{{label}}</div>`,
+            props: ['row', 'label'],
+            computed: {
+                positionStyle() {
+                    return {
+                        top: `${(6 - this.row) * 60}px`
+                    }
+                }
+            }
+        })
+
+        app.component('winner-text', {
+            template: `<h3 v-show="toggle">And the winner is: P{{ winner + 1}}!</h3>`,
+            data() {
+                return {
+                    toggle: true
+                }
+            },
+            props: ['winner'],
+            mounted() {
+                setInterval(() => {
+                    this.toggle = !this.toggle
+                }, 500)
             }
         })
 
