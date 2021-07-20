@@ -16,6 +16,7 @@
     Opcionális:
     - Inline edit a todo-kon
     - Todo-k számának kiírása
+    - Edit után újra kerüljön Folyamatban állapotba a todo
  -->
 
 <!DOCTYPE html>
@@ -24,26 +25,115 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        a {
+            color:maroon;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="vue-app">
-        
+        <input type="checkbox" id="filterInput" v-model="filterDone">
+        <label for="filterInput">Show done</label>
+
+        <ul>
+            <todo-item v-for="(todo, index) in orderedTodos" :key="todo.id" :todo="todo"
+                @remove="removeTodo" @done="doneTodo"></todo-item>
+        </ul>
+
+        <label for="new-todo">Add a todo</label>
+        <input v-model="newTodoText" id="new-todo" placeholder="E.g. Feed the cat" />
+        <button @click.prevent="addNewTodo">Add</button>
+        <p>{{ statsMessage }}</p>
     </div>
 
     <script>
         const VueApp = {
             data() {
                 return {
-                    
+                    filterDone: true,
+                    newTodoText: '',
+                    todos: [
+                        { id: 1, title: 'todo 1', done: false },
+                        { id: 2, title: 'todo 2', done: false },
+                        { id: 3, title: 'todo 3', done: false }
+                    ],
+                    nextTodoId: 4
                 }
             },
             methods: {
-                
+                addNewTodo() {
+                    this.todos.push({
+                        id: this.nextTodoId++,
+                        title: this.newTodoText,
+                        done: false
+                    })
+                    this.newTodoText = ''
+                },
+                doneTodo(todo) {
+                    todo.done = true;
+                },
+                removeTodo(todo) {
+                    const todoIndex = this.todos.findIndex(t => t.id === todo.id)
+                    this.todos.splice(todoIndex, 1)
+                }
+            },
+            computed: {
+                orderedTodos() {
+                    console.log('ordered')
+                    return this.todos
+                        .filter(t => this.filterDone || !t.done)
+                        .sort((a, b) => a.done > b.done ? a.id - b.id : -1)
+                },
+                statsMessage() {
+                    let doneCount = this.todos.filter(t => t.done).length
+                    return `Ongoing todos: ${this.todos.length - doneCount}, done todos: ${doneCount}`
+                }
             }
         }
-
         const app = Vue.createApp(VueApp)
+
+        app.component('todo-item', {
+            data(){
+                return {
+                    edit: false
+                }
+            },
+            template: `
+                <li>
+                    <span v-show="!edit" :style="todoStyle" @dbclick="doubleClick">{{ todo.title }}</span>
+                    <input v-show="edit" v-model="todo.title" type="text" />
+                    <a v-show="!edit" @click="edit=true">Edit</a>
+                    <a v-show="edit" @click="save">Save</a>
+                    <a v-show="!todo.done" @click="$emit('done', todo)">Done</a>
+                    <a v-show="todo.done" @click="$emit('remove', todo)">Remove</a>
+                </li>
+            `,
+            props: ['todo'],
+            computed: {
+                todoStyle() {
+                    return {
+                        textDecoration: this.todo.done ? 'line-through' : '', 
+                        margin: '10px'
+                    }
+                }
+            },
+            methods: {
+                doubleClick(){
+                    alert('double')
+                },
+                save() {
+                    this.edit = false;
+                    this.todo.done = false;
+                }
+            }
+        })
+
+
         app.mount('#vue-app')
     </script>
 </body>
