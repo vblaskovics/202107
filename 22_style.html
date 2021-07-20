@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <div :style="{ color: activeColor, fontSize: fontSize + 'px' }">Hello Style</div>
+        <div :style="styleObject">Hello Style Object</div>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                   activeColor: 'red',
+                   fontSize: 30,
+                   styleObject: {
+                       color: 'blue',
+                       fontSize: '24px'
+                   }
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>

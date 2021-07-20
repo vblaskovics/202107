@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .active {
+            background-color: aqua;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vue-app">
+        <my-component class="c-3 c-4"></my-component>
+        <my-component-2 class="c-3 c-4"></my-component-2>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                   
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        
+        app.component('my-component', {
+            template: `<p class="c-1 c-2">Hello!</p>`
+        })
+
+        app.component('my-component-2', {
+            template: `
+                <p class="c-1" :class="$attrs.class">Hello 2!</p>
+                <span>Another element</span>
+            `
+        })
+        
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
