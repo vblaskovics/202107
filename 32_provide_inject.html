@@ -32,29 +32,31 @@
             data() {
                 return {
                     todos: ['todo 1', 'todo 2'],
-                    user: 'Peter Parker'
                 }
+            },
+            provide: {
+                user: 'Peter Parker'
             },
             template: `
                 {{ todos.length}}
                 <ul>
-                    <todo-item v-for="todo in todos" :todo="todo" :user="user"></todo-item>
+                    <todo-item v-for="todo in todos" :todo="todo"></todo-item>
                 </ul>
             `
         })
 
         app.component('todo-item', {
-            props: ['todo', 'user'],
+            props: ['todo'],
             template: `
                 <li>
-                    <todo-user :user="user"></todo-user> :
+                    <todo-user></todo-user> :
                     {{ todo }}
                 </li>
             `
         })
 
         app.component('todo-user', {
-            props: ['user'],
+            inject: ['user'],
             template: `
                 <strong>{{ user }}</strong>
             `
