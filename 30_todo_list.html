@@ -84,7 +84,6 @@
             },
             computed: {
                 orderedTodos() {
-                    console.log('ordered')
                     return this.todos
                         .filter(t => this.filterDone || !t.done)
                         .sort((a, b) => a.done > b.done ? a.id - b.id : -1)
@@ -105,7 +104,7 @@
             },
             template: `
                 <li>
-                    <span v-show="!edit" :style="todoStyle" @dbclick="doubleClick">{{ todo.title }}</span>
+                    <span v-show="!edit" :style="todoStyle">{{ todo.title }}</span>
                     <input v-show="edit" v-model="todo.title" type="text" />
                     <a v-show="!edit" @click="edit=true">Edit</a>
                     <a v-show="edit" @click="save">Save</a>
@@ -123,9 +122,6 @@
                 }
             },
             methods: {
-                doubleClick(){
-                    alert('double')
-                },
                 save() {
                     this.edit = false;
                     this.todo.done = false;
