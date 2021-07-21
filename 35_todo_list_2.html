@@ -1,0 +1,50 @@
+<!-- 
+    FELADAT
+
+    Készíts egy todo list alkalmazást!
+
+    Funkciók:
+    - todo-k hozzáadása, törlése
+    - a todo elemek tudjanak megjeleníteni tartalmat a szülő template-ből (pl. icon) - slots
+    - a todo elemeknek két típusa lehet:
+        - szimpla (csak szöveg)
+        - összetett: van rajta egy select input, ahol meg lehet adni a prioritását
+    - a todo típusok dinamikusan generálódjanak ( component :is )
+
+    Opcionális
+    - több slot használata a todo item-nél (named slots)
+    - vua app => todo item eljuttatni egy értéket ( provide, inject )
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    
+                }
+            },
+            methods: {
+
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
