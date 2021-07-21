@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .demo {
+            border: 1px solid;
+            padding: 20px;
+        }
+
+        .tab-button {
+            padding: 5px;
+            border: 1px solid gray;
+            cursor: pointer;
+            background-color: lightblue;
+        }
+        
+        .tab-button.active {
+            background-color: darkblue;
+            color: white;
+        }
+
+        .demo-tab {
+            border: 1px solid;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="vue-app">
+        <div id="dynamic-component-demo" class="demo">
+            <button v-for="tab in tabs" :key="tab" 
+                :class="['tab-button', { active: currentTab === tab }]"
+                @click="currentTab = tab">
+                {{ tab }}
+            </button>
+        </div>
+
+        <keep-alive>
+            <component :is="currentTabComponent" class="tab"></component>
+        </keep-alive>
+        
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+                    currentTab: 'Home',
+                    tabs: ['Home', 'Posts', 'Archive']
+                }
+            },
+            computed: {
+                currentTabComponent() {
+                    return 'tab-' + this.currentTab.toLowerCase()
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+        
+        app.component('tab-home', {
+            template: `<div class="demo-tab">Home component</div>`
+        })
+
+        app.component('tab-posts', {
+            template: `
+                <div>
+                    <ul>
+                        <li v-for="post in posts" :key="post.id" @click="selectedPost = post">
+                            {{ post.title }}
+                        </li>
+                    </ul>
+                    <div>
+                        <div v-if="selectedPost">
+                            <h3> {{ selectedPost.title }} </h3>
+                            <div v-html="selectedPost.content"></div>
+                        </div>
+                        <div v-else>
+                            Click on a title to open!
+                        </div>
+                    </div>
+                </div>
+            `,
+            data() {
+                return {
+                    posts: [
+                        {id:'1', title:'Post 1', content: 'Hello Post 1, ez egy rövid post ...'},
+                        {id:'2', title:'Post 2', content: 'Hello Post 2, ez megintcsak egy rövid post ...'},
+                        {id:'3', title:'Post 3', content: 'Hello Post 3, ez talán egy kicsit hossszabb post ...'}
+                    ],
+                    selectedPost: null
+                }
+            }
+        })
+
+        app.component('tab-archive', {
+            template: `<div class="demo-tab">Archive component</div>`
+        })
+        
+        app.mount('#vue-app')
+    </script>
+</body>
+</html>
