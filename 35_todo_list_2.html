@@ -23,26 +23,120 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        ul {
+            list-style-type: none;
+        }
+
+        i {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        input,
+        li,
+        button {
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="vue-app">
+        <span>Todo: </span>
+        <input type="text" v-model="newTodo.text">
+        
+        <span>Priority: </span>
+        <priority-select :todo="newTodo"></priority-select>
+        
+        <button @click=addTodo>Add</button>
 
+        <ul>
+            <todo-container v-for="todo in todos" :todo="todo">
+                <i class="fa fa-chevron-circle-right"></i>
+                <template #end>
+                    <a @click="removeTodo(todo)">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </template>
+            </todo-container>
+        </ul>
     </div>
 
     <script>
         const VueApp = {
             data() {
                 return {
-                    
+                    newTodo: { id:4, text: null, priority: null },
+                    todos: [
+                        { id: 0, text: 'Todo 1', priority: 3 },
+                        { id: 1, text: 'Todo 2', user: 'John' },
+                        { id: 2, text: 'Todo 3', priority: 1 }
+                    ]
                 }
             },
+            provide: {
+                priorities: ['Low', 'Normal', 'High']
+            },
             methods: {
-
+                removeTodo(todo) {
+                    const todoIndex = this.todos.findIndex(t => t.id === todo.id)
+                    this.todos.splice(todoIndex, 1)
+                },
+                addTodo() {
+                    this.todos.push({
+                        id: this.newTodo.id++,
+                        text: this.newTodo.text,
+                        priority: this.newTodo.priority,
+                    })
+                    this.newTodo.text = null
+                    this.newTodo.priority = null
+                }
             }
         }
 
         const app = Vue.createApp(VueApp)
+
+        app.component('todo-container', {
+            props: ['todo'],
+            computed: {
+                todoItemType() {
+                    return this.todo.priority ? 'todo-item-advanced' : 'todo-item'
+                }
+            },
+            template: `<li>
+                <slot></slot>
+                <component :is="todoItemType" :todo="todo"></component>
+                <slot name="end"></slot>
+            </li>`
+        })
+
+        app.component('todo-item', {
+            props: ['todo'],
+            template: `{{ todo.text }}`
+        })
+
+        app.component('todo-item-advanced', {
+            props: ['todo'],
+            template: `
+                {{ todo.text }}
+                <priority-select :todo="todo"></priority-select>
+            `
+        })
+        
+        app.component('priority-select', {
+            props: ['todo'],
+            inject: ['priorities'],
+            template: `
+                <select v-model="todo.priority">
+                    <option v-for="(prio, index) in priorities" :value="index + 1">{{prio}}</option>
+                </select>
+            `
+        })
+
         app.mount('#vue-app')
     </script>
 </body>
