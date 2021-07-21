@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .btn {
+            padding: 5px;
+            color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vue-app">
+
+        <!-- <todo-button :item="{text:'Hello prop'}"></todo-button> -->
+        
+        <todo-button>
+            <strong>Hello</strong>
+        </todo-button>
+
+        <base-layout>
+            <!-- Named slot -->
+            <template v-slot:header>
+                <h2>Page title</h2>
+            </template>
+            
+            <!-- Default slot -->
+            <template v-slot:default>
+                <p>Lorem ipsum</p>
+                <p>Lorem ipsum</p>
+                <p>Lorem ipsum</p>
+            </template>
+            
+            <!-- Shorthand v-slot: => # -->
+            <template #footer>
+                <p>Copyright @ 2021</p>
+            </template>
+        </base-layout>
+
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+
+        app.component('todo-button', {
+            data() {
+                return {
+                    label: 'felirat'
+                }
+            },
+            props: ['item'],
+            template: `
+                <button class="btn">
+                    <slot></slot>
+                </button>
+            `
+        })
+
+        app.component('base-layout', {
+            template: `
+                <div>
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>    
+                    </footer>
+                </div>
+            `
+        })
+
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
