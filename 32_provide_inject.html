@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .btn {
+            padding: 5px;
+            color: navy;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vue-app">
+        <todo-list></todo-list>
+    </div>
+
+    <script>
+        const VueApp = {
+            data() {
+                return {
+
+                }
+            }
+        }
+
+        const app = Vue.createApp(VueApp)
+
+        app.component('todo-list', {
+            data() {
+                return {
+                    todos: ['todo 1', 'todo 2'],
+                    user: 'Peter Parker'
+                }
+            },
+            template: `
+                {{ todos.length}}
+                <ul>
+                    <todo-item v-for="todo in todos" :todo="todo" :user="user"></todo-item>
+                </ul>
+            `
+        })
+
+        app.component('todo-item', {
+            props: ['todo', 'user'],
+            template: `
+                <li>
+                    <todo-user :user="user"></todo-user> :
+                    {{ todo }}
+                </li>
+            `
+        })
+
+        app.component('todo-user', {
+            props: ['user'],
+            template: `
+                <strong>{{ user }}</strong>
+            `
+        })
+
+        app.mount('#vue-app')
+    </script>
+</body>
+
+</html>
